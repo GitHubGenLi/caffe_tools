@@ -1,0 +1,18 @@
+#image and data
+*.jpg
+*.mat
+*.mdb
+*.bin
+
+#testing script
+testing.*
+
+#system temp 
+.DS_Store
+*~
+
+#compiled objects
+*.pyc
+*.so
+*.a
+*.lib
