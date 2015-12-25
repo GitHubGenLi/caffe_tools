@@ -2,10 +2,11 @@ from random import shuffle
 import argparse
 from os.path import normpath, join, split
 parser = argparse.ArgumentParser(description='split data to training and testing subset.')
-parser.add_argument('txt_file_name', help='txt file that data item stored')
+parser.add_argument('txt', help='txt file that data item stored')
+parser.add_argument('ratio', type=float, help='split ration')
 args = parser.parse_args()
-ratio = 0.1
-txt_fn = args.txt_file_name
+txt_fn = args.txt
+ratio = args.ratio
 txt_folder = split(txt_fn)[0]
 test_txt_fn = 'test.txt'
 train_txt_fn = 'train.txt'
