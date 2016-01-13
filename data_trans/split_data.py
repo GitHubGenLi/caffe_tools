@@ -2,8 +2,9 @@ from random import shuffle
 import argparse
 from os.path import normpath, join, split
 parser = argparse.ArgumentParser(description='split data to training and testing subset.')
-parser.add_argument('txt', help='txt file that data item stored')
-parser.add_argument('ratio', type=float, help='split ration')
+parser.add_argument('--txt', help='txt file that data item stored', type=str, 
+    default='data.txt')
+parser.add_argument('--ratio', type=float, help='split ration', default=0.1)
 args = parser.parse_args()
 txt_fn = args.txt
 ratio = args.ratio

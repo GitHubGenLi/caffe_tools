@@ -5,11 +5,17 @@ import cv2
 import numpy as np
 from scipy import io
 import lmdb
-caffe_root = '../../caffe/'
-sys.path.insert(0, caffe_root + 'python/')
+import argparse
+parser = argparse.ArgumentParser(description='split data to training and testing subset.')
+parser.add_argument('--caffe_root', type=str, help='caffe root folder', default='~/caffe/')
+parser.add_argument('--txt', type=str, help='txt list file', default='train.txt')
+parser.add_argument('--dst', type=str, help='destination dir to save lmdb', default='./lmdb')
+args = parser.parse_args()
+caffe_root = args.caffe_root
+txt_fn = args.txt
+dst_dir = args.dst
+sys.path.insert(0, join(caffe_root, 'python'))
 import caffe
-
-lmdb_dir = './'
 def make_lmdb_map(txt_list, lmdb_dir = './', mat_field = 'map', shuf = True, mean = None, display = False):
     NUM_IDX_DIGITS = 10
     IDX_FMT = '{:0>%d' % NUM_IDX_DIGITS + 'd}'
@@ -64,14 +70,15 @@ def make_lmdb_map(txt_list, lmdb_dir = './', mat_field = 'map', shuf = True, mea
     maps_db = lmdb.open(lmdb_maps_dir, map_size=int(1e12))
     print 'converting mat to lmdb...'
     with maps_db.begin(write=True) as in_txn:
-    	for idx, map_path in enumerate(maps):
+        for idx, map_path in enumerate(maps):
             if display:
                 print 'mat', idx + 1, 'of', len(maps)
-    		map_data = io.loadmat(map_path)[mat_field]
-    		map_data = np.expand_dims(map_data, axis=0)
-    		map_data = caffe.io.array_to_datum(map_data)
-    		in_txn.put(IDX_FMT.format(idx), map_data.SerializeToString())
+            map_data = io.loadmat(map_path)[mat_field]
+            print map_data.shape
+            map_data = np.expand_dims(map_data, axis=0)
+            map_data = caffe.io.array_to_datum(map_data)
+            in_txn.put(IDX_FMT.format(idx), map_data.SerializeToString())
     maps_db.close()
 
 if __name__ == '__main__':
-    make_lmdb_map('../../DeepSkeleton/data/sk506/train_pair.txt', 'lmdb', display = False)
+    make_lmdb_map(txt_fn, dst_dir, display = False, shuf=True)
