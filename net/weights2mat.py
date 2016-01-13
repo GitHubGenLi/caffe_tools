@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser(description='transform model weights to mat')
 parser.add_argument('--caffe_root', type=str, help='caffe root folder', default='~/caffe/')
 parser.add_argument('--model', type=str, help='source model', default='model.caffemodel')
 parser.add_argument('--deploy', type=str, help='net deplot prototxt', default='deploy.prototxt')
-parser.add_argument('--mat', type=str, help='mat file to save weights', default='model.caffemodel')
+parser.add_argument('--mat', type=str, help='mat file to save weights', default='weights.mat')
 args = parser.parse_args()
 
 caffe_root = args.caffe_root
