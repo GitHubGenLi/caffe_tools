@@ -3,7 +3,7 @@
 ####lmdb_map.py  
 convert image-mat pair into lmdb according to a text file
 
-usage:  
+* usage:  
 
 ```bash
 python lmdb_map.py --caffe_root CAFFE_ROOT --txt data.txt --dst DST_DIR
